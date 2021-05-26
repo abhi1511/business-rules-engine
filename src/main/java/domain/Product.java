@@ -8,4 +8,8 @@ public class Product {
     public Product(Category category) {
         this.category = category;
     }
+
+    public Category getCategory() {
+        return category;
+    }
 }
