@@ -17,16 +17,16 @@ public class OrderRulesEngine {
 
     public List<String> execute(Order order) {
         List<Product> listOfProducts = order.getProductList();
-        List<Rule> listOfRule = new ArrayList<>();
+        List<Rule> listOfRules = new ArrayList<>();
         List<String> listOfActions;
 
         listOfProducts.stream()
                 .filter(product -> productToBusinessRulesMapping.get(product.getCategory()) != null)
                 .forEach(product -> {
-                    listOfRule.addAll(productToBusinessRulesMapping.get(product.getCategory()));
+                    listOfRules.addAll(productToBusinessRulesMapping.get(product.getCategory()));
                 });
 
-        listOfActions = listOfRule.stream().map(Rule::apply).collect(Collectors.toList());
+        listOfActions = listOfRules.stream().map(Rule::apply).collect(Collectors.toList());
         return listOfActions;
     }
 

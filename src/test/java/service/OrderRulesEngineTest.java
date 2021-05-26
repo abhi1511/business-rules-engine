@@ -28,7 +28,6 @@ public class OrderRulesEngineTest {
         testSubject.addRules(ACTIVATE_MEMBERSHIP, new ActivateMembership());
         testSubject.addRules(ACTIVATE_MEMBERSHIP, new EmailNotification("activation"));
         testSubject.addRules(VIDEO_FOR_LEARNING_SKI, new AddFreeVideo());
-
     }
 
     @Test
@@ -55,14 +54,17 @@ public class OrderRulesEngineTest {
     public void testExecuteForMultipleProduct() {
         Product physicalProduct = new Product(PHYSICAL_PRODUCT);
         Product book = new Product(BOOK);
+        Product activateMembership = new Product(ACTIVATE_MEMBERSHIP);
         Order order = new Order();
-        order.addProducts(Arrays.asList(physicalProduct, book));
+        order.addProducts(Arrays.asList(physicalProduct, book, activateMembership));
         List<String> listOfActions = testSubject.execute(order);
-        assertEquals(4, listOfActions.size());
+        assertEquals(6, listOfActions.size());
         assertTrue(listOfActions.contains("generate a packing slip for shipping"));
         assertTrue(listOfActions.contains("create a duplicate packing slip for the royalty department"));
         assertTrue(listOfActions.contains("generate a commission payment to the agent for book"));
         assertTrue(listOfActions.contains("generate a commission payment to the agent for physical product"));
+        assertTrue(listOfActions.contains("activate that membership"));
+        assertTrue(listOfActions.contains("e-mail the owner and inform them of the activation"));
 
     }
 
