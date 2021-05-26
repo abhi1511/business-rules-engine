@@ -4,7 +4,11 @@ import businessrules.Rule;
 import domain.Order;
 import domain.Product;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class OrderRulesEngine {
 
@@ -13,11 +17,16 @@ public class OrderRulesEngine {
 
     public List<String> execute(Order order) {
         List<Product> listOfProducts = order.getProductList();
-        List<String> listOfActions = new ArrayList<>();
+        List<Rule> listOfRule = new ArrayList<>();
+        List<String> listOfActions;
 
         listOfProducts.stream()
                 .filter(product -> productToBusinessRulesMapping.get(product.getCategory()) != null)
-                .map()
+                .forEach(product -> {
+                    listOfRule.addAll(productToBusinessRulesMapping.get(product.getCategory()));
+                });
+
+        listOfActions = listOfRule.stream().map(Rule::apply).collect(Collectors.toList());
         return listOfActions;
     }
 

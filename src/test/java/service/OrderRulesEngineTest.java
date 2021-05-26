@@ -33,9 +33,7 @@ public class OrderRulesEngineTest {
 
     @Test
     public void testExecuteForEmptyOrder() {
-        Product physicalProduct = new Product(PHYSICAL_PRODUCT);
         Order order = new Order();
-        order.addProduct(physicalProduct);
         List<String> listOfActions = testSubject.execute(order);
         assertEquals(0, listOfActions.size());
 
@@ -47,7 +45,7 @@ public class OrderRulesEngineTest {
         Order order = new Order();
         order.addProduct(physicalProduct);
         List<String> listOfActions = testSubject.execute(order);
-        assertEquals(1, listOfActions.size());
+        assertEquals(2, listOfActions.size());
         assertTrue(listOfActions.contains("generate a packing slip for shipping"));
         assertTrue(listOfActions.contains("generate a commission payment to the agent for physical product"));
 
@@ -60,7 +58,7 @@ public class OrderRulesEngineTest {
         Order order = new Order();
         order.addProducts(Arrays.asList(physicalProduct, book));
         List<String> listOfActions = testSubject.execute(order);
-        assertEquals(2, listOfActions.size());
+        assertEquals(4, listOfActions.size());
         assertTrue(listOfActions.contains("generate a packing slip for shipping"));
         assertTrue(listOfActions.contains("create a duplicate packing slip for the royalty department"));
         assertTrue(listOfActions.contains("generate a commission payment to the agent for book"));
